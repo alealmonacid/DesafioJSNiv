@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Action 1</a>
+                        <a class="dropdown-item" href="#">Action 2</a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <button id="#MostrarProductos" type="button" class="btn btn-primary">Ver Productos</button>
+            </div>
+            <div class="col-md-6">
+
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="BuscarProducto()">Buscar</button>
+
+                <h2>Productos con Stock</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <h2>Productos con Bajo Stock</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+            <div class="col-md-3">
+
+                <h3>Hay productos disponibles en Categoria Verduras?</h3>
+                <button id="#Verificar" type="button" class="btn btn-primary">Verificar</button>
+                <br>
+                <hr>
+                <br>
+                <h3>Total en almacen</h3>
+                <button id="#Verificartotal" type="button" class="btn btn-primary">Verificar</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+
+    <script>
+        const productos = [
+            { nombre: "Manzana", categoria: "Fruta", precio: 100, stock: 10 },
+            { nombre: "Frutilla", categoria: "Fruta", precio: 100, stock: 10 },
+            { nombre: "Palta", categoria: "Fruta", precio: 100, stock: 10 },
+            { nombre: "Tomate", categoria: "Verdura", precio: 350, stock: 2 },
+            { nombre: "Lechuga", categoria: "Verdura", precio: 100, stock: 2 }
+        ]
+        //-----------------------------DOM-------------------------------------//
+        const mostrarProductos = document.getElementById("#MostrarProductos");
+        const VerificarCategoria = document.getElementById("#Verificar");
+        const Verificartotal = document.getElementById("#Verificartotal");
+        const verProductos = document.getElementsByTagName("tbody")[0];
+        const verProductosBajo = document.getElementsByTagName("tbody")[1];
+        const formEdit = document.getElementsByTagName("form")[1];
+
+        //----------------------------------------------------------------------//
+        // 2.2) Mostrar por consola los productos cuyo stock es mayor a 0
+        const ProductosConStock = productos.filter((prod) => prod.stock > 2)
+        console.log("Productos con stock ")
+        console.log(ProductosConStock);
+
+        // 2.2) Productos cuyo stock sea menor o igual a 2
+        const ProductosBajoStock = productos.filter((prod) => prod.stock <= 2)
+        console.log("Productos con Bajo stock ")
+        console.log(ProductosBajoStock)
+
+        // 2.2) Todos los productos
+        const TodosLosProductos = productos.filter((prod) => prod.stock >0)
+        console.log("Todos los Productos ")
+        console.log(TodosLosProductos)
+
+
+        // 2.1) Cambiar Valores Cuando queden pocas existencias (2)
+        const aumentoPrecio = ProductosBajoStock.map((prod) => {
+            return { ...prod, precio: prod.precio * 1.5 }
+        })
+
+
+        //Muestra todos los productos con stock
+        mostrarProductos.addEventListener("click", () => {
+            ProductosConStock.forEach((prod, i) => {
+                verProductos.innerHTML += `
+                    <tr>
+                        <td>${prod.nombre}</td>
+                        <td>${prod.categoria}</td>
+                        <td>$${prod.precio}</td>
+                        <td>${prod.stock}</td>
+                    </tr>
+                        `;
+            });
+            aumentoPrecio.forEach((prod, i) => {
+                verProductosBajo.innerHTML += `
+                    <tr>
+                        <td>${prod.nombre}</td>
+                        <td>${prod.categoria}</td>
+                        <td>$${prod.precio}</td>
+                        <td>${prod.stock}</td>
+                    </tr>
+                        `;
+            });
+
+        });
+
+        // 2.3) Busqueda de producto usando Find o FindIndex
+        // 3) Tiempo de espera Funcion Asincrona
+        function timeoutRes(ms){
+            return new Promise((resolve,reject) => {
+                setTimeout(function () {
+                    resolve(true);
+                },ms);
+            })
+        }
+        async function BuscarProducto() {
+            const buscador = prompt("Que producto buscas?")
+            try {
+                
+                    const producto = productos.find(prod => prod.nombre === buscador)
+                    await timeoutRes(2000)
+                    alert("Buscaste : " + producto.nombre + " Cuyo precio es de : " + producto.precio + " y su stock es de " + producto.stock + " Unidades")
+                } catch (error) {
+                    //5 Manejar error con Throw y Error
+                    await timeoutRes(2000)
+                    throw "No hay unidades"
+                    alert("No hay unidades")
+                }
+        }
+      
+        // 2.4) Verificar si hay algun producto está en la categoria "Verduras"
+        VerificarCategoria.addEventListener("click", () => {
+            const VerificandoCategoria = productos.some((prod) => {
+                const condicion = prod.categoria === "Verdura"
+                return condicion
+            })
+            VerificandoCategoria === true ? alert("Si!") : alert("No!")
+        })
+
+
+        //4) Calcular Totales con Métodos Array
+        Verificartotal.addEventListener("click", () => {
+            //1) se usa let debido a que totalStock está en constante cambio y se va sumando al valor anterior, al colocar const arroja error y no es posible hacer que funcione
+            let totalStock = 0;
+            const resultado = productos.forEach((prod) => {
+                console.log(prod)
+                totalStock += prod.precio * prod.stock
+                alert("añadido: " + prod.nombre + " Precio normal: $" + prod.precio + " Stock: " + prod.stock + " Total sumado al anterior: $" + totalStock)
+            })
+        })
+
+
+
+
+
+
+
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
