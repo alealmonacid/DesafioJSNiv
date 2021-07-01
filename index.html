@@ -109,17 +109,17 @@
 
         //----------------------------------------------------------------------//
         // 2.2) Mostrar por consola los productos cuyo stock es mayor a 0
-        const ProductosConStock = productos.filter((prod) => prod.stock > 2)
+        const ProductosConStock = productos.filter(prod => prod.stock > 2)
         console.log("Productos con stock ")
         console.log(ProductosConStock);
 
         // 2.2) Productos cuyo stock sea menor o igual a 2
-        const ProductosBajoStock = productos.filter((prod) => prod.stock <= 2)
+        const ProductosBajoStock = productos.filter(prod => prod.stock <= 2)
         console.log("Productos con Bajo stock ")
         console.log(ProductosBajoStock)
 
         // 2.2) Todos los productos
-        const TodosLosProductos = productos.filter((prod) => prod.stock >0)
+        const TodosLosProductos = productos.filter(prod => prod.stock >0)
         console.log("Todos los Productos ")
         console.log(TodosLosProductos)
 
